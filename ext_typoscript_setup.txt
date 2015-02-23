@@ -1,0 +1,11 @@
+config.tx_extbase {
+   	persistence {
+   		classes {
+   			SKYFILLERS\SfPowermailExport\Domain\Model\Mail {
+   				mapping {
+   					tableName = tx_powermail_domain_model_mails
+   				}
+   			}
+   		}
+   	}
+   }
