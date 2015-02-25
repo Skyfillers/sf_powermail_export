@@ -26,7 +26,8 @@ namespace SKYFILLERS\SfPowermailExport\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-Use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class ExportCommandController
@@ -48,7 +49,7 @@ class PowermailExportCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller
 	 * @param int $timeframe Timeframe (seconds)
 	 * @param string $exportPath The export path
 	 * @param string $exportFilename The export filename
-	 * @return void
+	 * @return mixed
 	 */
 	public function csvCommand($pidList, $timeframe = NULL, $exportPath, $exportFilename) {
 		$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
@@ -60,14 +61,13 @@ class PowermailExportCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller
 		// Exit if path could not be found
 		if (!file_exists(GeneralUtility::getFileAbsFileName($exportPath))) {
 			$this->outputLine('Error: Export path could not be found.');
-			exit();
+			return FALSE;
 		}
 
 		if ($mails->count() == 0) {
 			$this->outputLine('Export finished - no new e-mails found.');
-			exit();
+			return FALSE;
 		}
-
 
 		$exportData = '';
 		$csvHeader = '';
